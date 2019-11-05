@@ -1,9 +1,12 @@
 import {createStore, combineReducers} from 'redux';
 
-import toDoListReducer from './todolist-reducer.js';
+import { reducer as toDoListReducer } from './todoList/todoList-reducer';
 
 let reducers = combineReducers({
-  toDo: toDoListReducer
+  todoList: toDoListReducer,
+  item: toDoListReducer,
 })
 
-export default () => createStore(reducers);
+export default function() {
+  return createStore(reducers, toDoListReducer());
+}

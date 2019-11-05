@@ -1,78 +1,140 @@
-import React, {useState, useEffect, useReducer} from "react";
-
+import React from 'react';
+import uuid from 'uuid/v4';
+import { When } from '../if';
+import Modal from '../modal';
 import { connect } from 'react-redux';
+import { addItem, deleteItem, toggleComplete } from '../../store/todoList/todoList-reducer';
+import { toggleDetails } from '../../store/details/details-reducer';
 
-import * as actions from '../../store/todolist-action';
+import './todo.scss';
 
-import uuid from "uuid/v4";
-import { When } from "../if";
-import TodoForm from "./form.js";
-import TodoList from "./list.js";
-import TodoItem from "./item.js";
+function toDo(props) {
 
-import "./todo.scss";
+  const { todoList, details, item, addItem, deleteItem, toggleComplete, toggleDetails, modifyItem, resetItem } = props;
 
-function ToDo(props) {
-  console.log({props})
-  // const [state, dispatch] = useReducer(reducers, initialState);
+  let handleInputChange = e => {
+    let { name, value } = e.target;
 
-  // const _addItem = (data) => {
-  //   data._id = uuid();
-  //   data.complete = false;
-  //   dispatch({type: 'add', payload:data});
-  // };
+    modifyItem(name, value);
+  };
 
-  // const _deleteItem = (id) => {
-  //   dispatch({type:'delete', payload:id});
-  // }
+  let addNewItem = (e) => {
 
-  // const _toggleComplete = (id) => {
-  //   dispatch({type: 'toggle', payload:id});
-  // };
+    e.preventDefault();
+    e.target.reset();
 
-  // const _toggleDetails = id => {
-  //   dispatch({type: 'details', payload:id});
-  // };
+    const defaults = { _id: uuid(), complete:false };
+    const newItem = Object.assign({}, item, defaults);
+
+    addItem(newItem);
+    resetItem();
+  };
+
+  let showDetails = (id) => {
+    let item = todoList.find(item => item._id === id);
+
+    toggleDetails(item);
+  }
+
+  console.log(details);
+
   return (
     <>
       <header>
-        <h2> 
-          There are {props.todo.todoList.filter( item => !item.complete ).length} Items To Complete 
+        <h2>
+          There are
+          {todoList.filter( item => !item.complete ).length}
+          Items To Complete
         </h2>
-        </header>
-        <TodoForm/>
-        {/* <section className="todo">
+      </header>
+
+      <section className="todo">
+
         <div>
-          
-           <TodoForm handleSubmit={_addItem} />
-         </div>
+          <h3>Add Item</h3>
+          <form onSubmit={addNewItem}>
+            <label>
+              <span>To Do Item</span>
+              <input
+                name="text"
+                placeholder="Add To Do List Item"
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              <span>Difficulty Rating</span>
+              <input type="range" min="1" max="5" name="difficulty" defaultValue="3" onChange={handleInputChange} />
+            </label>
+            <label>
+              <span>Assigned To</span>
+              <input type="text" name="assignee" placeholder="Assigned To" onChange={handleInputChange} />
+            </label>
+            <label>
+              <span>Due</span>
+              <input type="date" name="due" onChange={handleInputChange} />
+            </label>
+            <button>Add Item</button>
+          </form>
+        </div>
 
-         <div>
-           <TodoList
-             list={state.todoList}
-             handleComplete={_toggleComplete}
-             handleDetails={_toggleDetails}
-             handleDelete={_deleteItem}
-           />
-         </div>
-       </section>
+        <div>
+          <ul>
+            { todoList.map(item => (
+              <li
+                className={`complete-${item.complete.toString()}`}
+                key={item._id}
+              >
+                <span onClick={() => toggleComplete(item._id)}>
+                  {item.text}
+                </span>
+                <button onClick={() => showDetails(item._id)}>
+                  Details
+                </button>
+                <button onClick={() => deleteItem(item._id)}>
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-       <When condition={state.showDetails}>
-         <TodoItem handleDetails={_toggleDetails} item={state.details} />
-       </When> */}
+      <When condition={details.showDetails}>
+        <Modal title="To Do Item" close={showDetails}>
+          <div className="todo-details">
+            <header>
+              <span>Assigned To: {details.details.assignee}</span>
+              <span>Due: {details.details.due}</span>
+            </header>
+            <div className="item">
+              {details.details.text}
+            </div>
+          </div>
+        </Modal>
+      </When>
     </>
   );
 }
 
-const mapStatetoProps = (state)=>({
-  todo: state.toDo
-})
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    todoList: state.todoList.todoList,
+    details: state.details,
+    item: state.item.item,
+  };
+}
 
-const mapDispatchtoProps = (dispatch, getState)=>({
-  addItem:()=>dispatch(actions()),
-  deleteItem:()=>dispatch(actions()),
-  toggleComplete:()=>dispatch(actions()),
-  toggleDetails:()=>dispatch(actions()) 
-});
+function mapDispatchToProps(dispatch) {
+  return {
+    addItem: (item) => dispatch(addItem(item)),
+    deleteItem: (id) => dispatch(deleteItem(id)),
+    toggleComplete: (id) => dispatch(toggleComplete(id)),
+    toggleDetails: (item) => dispatch(toggleDetails(item)),
+  }
+}
 
-export default connect(mapStatetoProps, mapDispatchtoProps)(ToDo);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(toDo);

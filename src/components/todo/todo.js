@@ -3,8 +3,9 @@ import uuid from 'uuid/v4';
 import { When } from '../if';
 import Modal from '../modal';
 import { connect } from 'react-redux';
-import { addItem, deleteItem, toggleComplete, toggleDetails } from '../../store/todoList/todoList-reducer';
-
+import { addItem, deleteItem, toggleComplete } from '../../store/todoList/todoList-reducer';
+import { toggleDetails } from '../../store/details/details-reducer';
+import { modifyItem, resetItem } from '../../store/item/item-reducer';
 
 import './todo.scss';
 
@@ -119,9 +120,9 @@ function toDo(props) {
 function mapStateToProps(state) {
   console.log(state);
   return {
-    todoList: state.todoList.todoList,
+    todoList: state.todoList,
     details: state.details,
-    item: state.item.item,
+    item: state.item,
   };
 }
 
@@ -131,6 +132,8 @@ function mapDispatchToProps(dispatch) {
     deleteItem: (id) => dispatch(deleteItem(id)),
     toggleComplete: (id) => dispatch(toggleComplete(id)),
     toggleDetails: (item) => dispatch(toggleDetails(item)),
+    modifyItem: (name, value) => dispatch(modifyItem(name, value)),
+    resetItem: () => dispatch(resetItem()),
   }
 }
 

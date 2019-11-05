@@ -1,7 +1,7 @@
 import React from 'react';
 
 const render = (condition = false, children = null) => {
-  return condition ? children : null;
+  return !!condition ? children : null;
 };
 
 export const If = props =>
@@ -24,4 +24,4 @@ export const When = props => render(props.condition, props.children);
   Pay more $$ and we will make you an admin
 </Unless>
 */
-export const Unless = props => render(!props.condition, props.children)
+export const Unless = props => render(!props.condition, props.children);

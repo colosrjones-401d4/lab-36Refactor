@@ -1,21 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './app.js';
+import { Provider } from "react-redux";
 
-import { Provider } from 'react-redux';
-import createStore from './store';
-let store = createStore();
+// State Only
+import ToDo from './components/todo/todo';
 
-function Main() {
+import createStore from "./store/index.js";
+const store = createStore();
+
+function App() {
   return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <ToDo />
+    </Provider>
   );
 }
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(<Main />, rootElement);
+export default App;

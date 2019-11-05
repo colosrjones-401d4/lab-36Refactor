@@ -1,16 +1,9 @@
-import { createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {createStore, combineReducers} from 'redux';
 
-import { reducer as counter } from './counter-reducer';
-import { reducer as name } from './name-reducer';
+import toDoListReducer from './todolist-reducer.js';
 
-let reducer = combineReducers({
-  counter,
-  name,
-});
+let reducers = combineReducers({
+  toDo: toDoListReducer
+})
 
-console.log('Initial combined reducers', reducer());
-
-export default function() {
-  return createStore(reducer, composeWithDevTools());
-}
+export default () => createStore(reducers);

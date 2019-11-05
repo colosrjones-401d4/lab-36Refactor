@@ -2,10 +2,10 @@ import React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
 // State Only
-import ToDo from './components/todo/todo.js';
+import ToDo from './components/todo/todo';
 
 // API Connected (Live Data)
-import ToDoConnected from './components/todo/todo-connected.js';
+import ToDoConnected from './components/todo/todo-connected';
 
 export default class App extends React.Component {
   render() {

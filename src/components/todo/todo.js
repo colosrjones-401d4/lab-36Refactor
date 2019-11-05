@@ -3,8 +3,8 @@ import uuid from 'uuid/v4';
 import { When } from '../if';
 import Modal from '../modal';
 import { connect } from 'react-redux';
-import { addItem, deleteItem, toggleComplete } from '../../store/todoList/todoList-reducer';
-import { toggleDetails } from '../../store/details/details-reducer';
+import { addItem, deleteItem, toggleComplete, toggleDetails } from '../../store/todoList/todoList-reducer';
+
 
 import './todo.scss';
 

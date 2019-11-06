@@ -1,33 +1,14 @@
-# lab-36Refactor
-Lab 36 ToDo Refactor
+## Lab 31: Application State
+
+### Author: Steven Jones
+
+### Links and Resources
+Practice[Code Sandbox](https://codesandbox.io/s/starter-code-app-state-96x0c)
 
 
-<!-- Not quite to understand how I do this with our todo starter code Lab 31 or 32. 
+* [GitHub](hhttps://github.com/colosrjones-401d4/lab-36Refactor)
 
-Look for details and list in starter code. 
+* [![Build Status](https://travis-ci.org/colosrjones-401d4/lab-36Refactor.svg?branch=master)](https://travis-ci.org/colosrjones-401d4/lab-36Refactor)
 
-This is confusing.. 
-To Do App Assignment
-Refactor the To Do application to use Redux -->
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c3af5c6d-f4fb-4d3e-93ae-11c9f0e82205/deploy-status)](https://app.netlify.com/sites/nostalgic-noether-dfe695/deploys)
 
-You'll be given a working To Do application which you must refactor as follows:
-
-State Management
-
-Convert the state management to a Redux Store.
-
-Create a Redux Store and two reducers:
-
-A todoList reducer, to track the list
-A details reducer, to track which item detail to show
-
-<!-- Steven: Thought about adding store for details reducer and todoList reducer. 
-
-I looked at details and list. Not sure that I am thinking about item in list.. 
-
-To show details..  Seems fade to me and trying to think.. will wait until tomorrow review..-->
-
-Wire up the components to subscribe to the store for state and actions
-
-Testing
-Test each reducer (without Enzyme)
